@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16
+    container_name: restaurant_db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=restaurant
+      - POSTGRES_PASSWORD=restaurant
+      - POSTGRES_DB=restaurant
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports: [ "5432:5432" ]
+
+  api:
+    build: .
+    container_name: restaurant_api
+    restart: unless-stopped
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=restaurant
+      - DB_PASS=restaurant
+      - DB_NAME=restaurant
+    ports: [ "8000:8000" ]
+    depends_on: [ db ]
+
+volumes:
+  postgres_data:
