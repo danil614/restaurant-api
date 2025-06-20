@@ -1,6 +1,6 @@
 import enum
 from datetime import datetime
-from typing import List
+from typing import Sequence
 
 from sqlalchemy import String, ForeignKey, Enum, DateTime, Table, Column
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -30,7 +30,7 @@ class Order(Base):
     order_time: Mapped[datetime] = mapped_column(DateTime(True), default=utc_now)
     status: Mapped[OrderStatus] = mapped_column(Enum(OrderStatus), default=OrderStatus.PROCESSING)
 
-    dishes: Mapped[List[Dish]] = relationship(
+    dishes: Mapped[Sequence[Dish]] = relationship(
         secondary=order_dish,
         cascade="all, delete",
         lazy="selectin",
