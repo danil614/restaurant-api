@@ -7,3 +7,5 @@ pytest
 httpx
 pytest-asyncio
 pydantic
+asyncpg
+psycopg2-binary

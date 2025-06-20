@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 class Settings(BaseSettings):
     api_title: str = "Restaurant API"
     api_version: str = "1.0.0"
@@ -16,5 +17,11 @@ class Settings(BaseSettings):
     def sqlalchemy_database_uri(self) -> str:
         return (f"postgresql+asyncpg://{self.db_user}:{self.db_pass}@"
                 f"{self.db_host}:{self.db_port}/{self.db_name}")
+
+    @property
+    def sqlalchemy_database_uri_sync(self) -> str:
+        return (f"postgresql+psycopg2://{self.db_user}:{self.db_pass}@"
+                f"{self.db_host}:{self.db_port}/{self.db_name}")
+
 
 settings = Settings()

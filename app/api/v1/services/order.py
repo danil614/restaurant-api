@@ -1,5 +1,4 @@
 from fastapi import HTTPException, status
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.order import Order, OrderStatus
 from app.repositories.dish import DishRepository
@@ -29,7 +28,7 @@ class OrderService:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, detail="One or more dishes not found")
 
         dishes = await self.dish_repo.get_many(schema.dishes_ids)
-        order = Order(customer_name=schema.customer_name, dishes=dishes)
+        order = Order(customer_name=schema.customer_name, dishes=list(dishes))
         return await self.order_repo.create(order)
 
     async def cancel(self, order_id: int):
